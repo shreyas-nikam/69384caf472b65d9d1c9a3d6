@@ -1,18 +1,90 @@
-
+# -*- coding: utf-8 -*-
 import streamlit as st
 
-st.set_page_config(page_title="QuCreate Streamlit Lab", layout="wide")
-st.sidebar.image("assets/images/company_logo.jpg")
+st.set_page_config(page_title='QuLab', layout='wide')
+st.sidebar.image('https://www.quantuniversity.com/assets/img/logo5.jpg')
 st.sidebar.divider()
-st.title("QuCreate Streamlit Lab")
+st.title('QuLab')
 st.divider()
 
-# Code goes here
+st.markdown('''
+Welcome to the AI-Driven Data Quality Scorecard lab. You will step into the role of a Quantitative Analyst in a DataOps team at a large financial institution. Your mission is to ensure the integrity of a corporate bond dataset used to train AI models for risk and pricing.
 
-st.divider()
-st.write("© 2025 QuantUniversity. All Rights Reserved.")
-st.caption("The purpose of this demonstration is solely for educational use and illustration. "
-           "To access the full legal documentation, please visit this link. Any reproduction of this demonstration "
-           "requires prior written consent from QuantUniversity.")
-st.caption(This lab was generated using the QuCreate platform. QuCreate relies on AI models for generating code, "
-           "which may contain inaccuracies or errors.")
+This app guides you through a realistic, end-to-end workflow:
+1) Load and explore the dataset to spot immediate concerns.
+2) Apply rule-based validity checks reflecting business and regulatory policies.
+3) Assess completeness and statistical consistency to quantify missingness and outliers.
+4) Verify timeliness and uniqueness to protect time-series integrity.
+5) Aggregate all findings into a weighted scorecard that drives a go/no-go decision.
+6) Investigate specific breaches and anomalies.
+7) Use AI to uncover subtle issues missed by traditional checks.
+8) Configure alert thresholds to monitor data quality over time.
+9) Generate a management-ready impact report with recommendations.
+
+Throughout, the narrative ties each interaction to the decisions you make in your job: where to remediate, whether to proceed with modeling, and how to communicate risk.
+''')
+
+# Sidebar navigation with optional reset
+pages = [
+    '1. Data Overview',
+    '2. Validity Checks',
+    '3. Completeness & Consistency',
+    '4. Timeliness & Duplication',
+    '5. Data Quality Scorecard',
+    '6. Investigate Validity Breaches',
+    '7. Investigate Statistical Anomalies',
+    '8. AI Anomaly Detection',
+    '9. Alerts Configuration & Status',
+    '10. Data Quality Impact Report'
+]
+
+# Use query params to persist page selection
+qp = st.query_params
+selected_from_qp = None
+if 'page' in qp:
+    candidate = qp.get('page')
+    if isinstance(candidate, list):
+        candidate = candidate[0] if candidate else None
+    if candidate in pages:
+        selected_from_qp = candidate
+
+default_index = pages.index(selected_from_qp) if selected_from_qp in pages else 0
+page = st.sidebar.selectbox(label='Navigation', options=pages, index=default_index)
+# Update the query params to reflect current selection
+st.query_params['page'] = page
+
+if st.sidebar.button('Reset Application'):
+    st.session_state.clear()
+    st.rerun()
+
+# Route to selected page
+if page == '1. Data Overview':
+    from application_pages.page_1_data_overview import main
+    main()
+elif page == '2. Validity Checks':
+    from application_pages.page_2_validity_checks import main
+    main()
+elif page == '3. Completeness & Consistency':
+    from application_pages.page_3_completeness_consistency import main
+    main()
+elif page == '4. Timeliness & Duplication':
+    from application_pages.page_4_timeliness_duplication import main
+    main()
+elif page == '5. Data Quality Scorecard':
+    from application_pages.page_5_scorecard import main
+    main()
+elif page == '6. Investigate Validity Breaches':
+    from application_pages.page_6_investigate_validity import main
+    main()
+elif page == '7. Investigate Statistical Anomalies':
+    from application_pages.page_7_investigate_statistical import main
+    main()
+elif page == '8. AI Anomaly Detection':
+    from application_pages.page_8_ai_anomaly import main
+    main()
+elif page == '9. Alerts Configuration & Status':
+    from application_pages.page_9_alerts import main
+    main()
+elif page == '10. Data Quality Impact Report':
+    from application_pages.page_10_report import main
+    main()
