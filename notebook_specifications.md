@@ -20,6 +20,9 @@ Our AI models, particularly those involved in risk assessment and portfolio opti
 
 For this lab, we will use a simulated dataset, `corporate_bond_data.csv`, designed to mimic real-world financial data with inherent data quality challenges such as missing values, outliers, and inconsistencies, which are common in regulated financial environments.
 
+### Installations and downloads
+1. Install the requirements using `pip install <libraries>`
+
 ### Code Cell (Function Definition)
 
 ```python
